@@ -6,7 +6,7 @@ export const initialState = {
   },{
     id: 2,
     name: 'Ashutosh Yadav',
-    isFavorite: false
+    isFavorite: true
   },{
     id: 3,
     name: 'Chirag Khanna',
@@ -15,8 +15,43 @@ export const initialState = {
     id: 4,
     name: 'Rajat Dhupar',
     isFavorite: false
+  },{
+    id: 5,
+    name: 'Sunny',
+    isFavorite: false
+  },{
+    id: 6,
+    name: 'Tom',
+    isFavorite: false
+  },{
+    id: 7,
+    name: 'Jack',
+    isFavorite: false
+  },{
+    id: 8,
+    name: 'Harry',
+    isFavorite: false
+  },{
+    id: 9,
+    name: 'Goku',
+    isFavorite: false
+  },{
+    id: 10,
+    name: 'Naruto',
+    isFavorite: false
+  },{
+    id: 11,
+    name: 'Hinata',
+    isFavorite: false
+  },{
+    id: 12,
+    name: 'Tim',
+    isFavorite: false
   }],
-  searchedUsers: []
+  currentPageUsers: [],
+  searchedUsers: [],
+  currentPage: 1,
+  usersPerPage: 4
 };
 
 export const reducer = (state = initialState, action) => {
@@ -59,6 +94,13 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         searchedUsers: action.users
+      }
+
+    case 'UPDATE_CURRENT_PAGE':
+      return {
+        ...state,
+        currentPage: action.pageNumber,
+        currentPageUsers: action.users
       }
   
     default:

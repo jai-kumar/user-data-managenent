@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import UserListItem from "../UserListItem/UserListItem";
 import "./UserList.css";
-// import UserList from "./components/UserList/UserList";
-import { UserContext } from "../../UserContext";
 import { useStateValue } from '../../StateProvider';
+import Paginator from '../Paginator/Paginator';
 
 function UserList() {
-  // const [searchedUsers, setSearchedUsers] = useState([]);
   const currentUser = useRef('');
   const searchBoxRef = useRef('');
-  const [{ users, searchedUsers }, dispatch] = useStateValue();
+  const [{ users, searchedUsers, currentPageUsers }, dispatch] = useStateValue();
 
   const handleSearch = function (e) {
     let matchedUsers = users.filter(user => {
@@ -68,14 +66,13 @@ function UserList() {
     }
   }
 
-  // console.log('userlist rendering....');
   return (
     <div className="userList">
-      <UserContext.Provider value={users}>
         <div className="userList__title">
           <h3>Friends List</h3>
         </div>
         <div className="userList__searchSection">
+          Sort by Favorite
           <input 
             type="checkbox" 
             value="Sort by Favorite"
@@ -100,10 +97,12 @@ function UserList() {
         {
           searchedUsers.length ?
             searchedUsers?.map(user => <UserListItem key={user.id} user={user} /> ) :
-            users?.map(user => <UserListItem key={user.id} user={user} /> )
+            currentPageUsers?.map(user => <UserListItem key={user.id} user={user} /> )
         }
       </div>
-      </UserContext.Provider>
+        <div className="userList__paginator">
+          <Paginator />
+        </div>
     </div>
   )
 }
