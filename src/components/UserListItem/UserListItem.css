@@ -1,0 +1,10 @@
+.userListItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userListItem__buttons .btn:not(:last-child) {
+  margin: 0 5px 0 5px;
+}
+

@@ -3,7 +3,7 @@ import { useStateValue } from "../../StateProvider";
 import PageNumbers from "./PageNumbers";
 
 function Paginator() {
-  const [{ users, usersPerPage }, dispatch] = useStateValue();
+  const [{ users, usersPerPage }] = useStateValue();
 
   // Logic for displaying page numbers
   const pageNumbers = [];

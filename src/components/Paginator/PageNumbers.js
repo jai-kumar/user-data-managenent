@@ -13,38 +13,36 @@ function PageNumbers({ pageNumbers }) {
     dispatch({
       type: "UPDATE_CURRENT_PAGE",
       pageNumber: n,
-      users: currentUsers
+      users: currentUsers,
     });
-  }
-  
+  };
+
   const handleUpdateCurrentPage = function (event) {
-    debugger
     showUsersForPage(parseInt(event.target.id));
   };
 
   useEffect(() => {
     showUsersForPage(currentPage);
-  }, [])
+  }, []);
 
   return (
     <div className="pageNumbers__nums">
-      {
-        pageNumbers.map((number) => {
-          return (
-            <li 
-              key={number} 
-              id={number} 
-              onClick={handleUpdateCurrentPage} 
-              style={{
-                backgroundColor: (currentPage === number) ? 'lightgreen' : ''
-              }}>
-              {number}
-            </li>
-          );
-        })
-      }
+      {pageNumbers.map((number) => {
+        return (
+          <li
+            key={number}
+            id={number}
+            onClick={handleUpdateCurrentPage}
+            style={{
+              backgroundColor: currentPage === number ? "lightgreen" : "",
+            }}
+          >
+            {number}
+          </li>
+        );
+      })}
     </div>
-  )
+  );
 }
 
 export default PageNumbers;
