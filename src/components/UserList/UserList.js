@@ -44,12 +44,43 @@ function UserList() {
     currentUser.current.value = '';
   }
 
+  const handleSortByFav = (e) => {
+    if(e.target.checked) {
+      let favArr = [],
+        nonFavArr = [];
+      users.map(user => {
+        if(user.isFavorite) {
+          favArr.push(user);
+        } else {
+          nonFavArr.push(user);
+        }
+      });
+
+      dispatch({
+        type: 'UPDATE_SEARCHED_USER',
+        users: favArr.concat(nonFavArr)
+      });
+    } else {
+      dispatch({
+        type: 'UPDATE_SEARCHED_USER',
+        users: []
+      });
+    }
+  }
+
   // console.log('userlist rendering....');
   return (
     <div className="userList">
       <UserContext.Provider value={users}>
         <div className="userList__title">
           <h3>Friends List</h3>
+        </div>
+        <div className="userList__searchSection">
+          <input 
+            type="checkbox" 
+            value="Sort by Favorite"
+            onChange={handleSortByFav}
+          />
         </div>
         <div className="userList__searchSection">
           <input 
