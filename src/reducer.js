@@ -15,7 +15,8 @@ export const initialState = {
     id: 4,
     name: 'Rajat Dhupar',
     isFavorite: false
-  }]
+  }],
+  searchedUsers: []
 };
 
 export const reducer = (state = initialState, action) => {
@@ -52,6 +53,12 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         users: newUsers
+      }
+
+    case 'UPDATE_SEARCHED_USER':
+      return {
+        ...state,
+        searchedUsers: action.users
       }
   
     default:

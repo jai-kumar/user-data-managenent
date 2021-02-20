@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import UserListItem from "../UserListItem/UserListItem";
 import "./UserList.css";
 // import UserList from "./components/UserList/UserList";
@@ -6,36 +6,29 @@ import { UserContext } from "../../UserContext";
 import { useStateValue } from '../../StateProvider';
 
 function UserList() {
+  // const [searchedUsers, setSearchedUsers] = useState([]);
   const currentUser = useRef('');
-  const [{ users }, dispatch] = useStateValue();
+  const searchBoxRef = useRef('');
+  const [{ users, searchedUsers }, dispatch] = useStateValue();
 
-  useEffect(() => {
-    // console.log('UserList mounted');
-    // const dummyUsers = [{
-    //   id: 1,
-    //   name: 'Jai Kumar',
-    //   isFavorite: false
-    // },{
-    //   id: 2,
-    //   name: 'Ashutosh Yadav',
-    //   isFavorite: false
-    // },{
-    //   id: 3,
-    //   name: 'Chirag Khanna',
-    //   isFavorite: false
-    // },{
-    //   id: 4,
-    //   name: 'Rajat Dhupar',
-    //   isFavorite: false
-    // }];
+  const handleSearch = function (e) {
+    let matchedUsers = users.filter(user => {
+      return user.name.toLowerCase().includes(e.target.value.toLowerCase())
+    });
 
-    // setUsers(dummyUsers);
-  }, []);
+    dispatch({
+      type: 'UPDATE_SEARCHED_USER',
+      users: matchedUsers
+    })
+  }
 
-  const handleOnChange = function (e) {
-    // debugger
-    // currentUser.current = e.target.value;
-    // setCurrentUser(e.target.value);
+  const handleSearchLeave = (e) => {
+    dispatch({
+      type: 'UPDATE_SEARCHED_USER',
+      users: []
+    });
+
+    e.target.value = '';
   }
 
   const handleAddUser = function (e) {
@@ -48,14 +41,7 @@ function UserList() {
         isFavorite: false
       }
     })
-    // setUsers(prevState => [
-    //   ...prevState,
-    //   {
-    //     id: prevState[prevState.length-1].id+1,
-    //     name: currentUser.current.value,
-    //     isFavorite: false
-    //   }
-    // ])
+    currentUser.current.value = '';
   }
 
   // console.log('userlist rendering....');
@@ -66,13 +52,24 @@ function UserList() {
           <h3>Friends List</h3>
         </div>
         <div className="userList__searchSection">
+          <input 
+            type="text" 
+            ref={searchBoxRef} 
+            placeholder="Search your Friend's name" 
+            onChange={handleSearch}
+            onBlur={handleSearchLeave}
+          />
+        </div>
+        <div className="userList__searchSection">
           <form onSubmit={handleAddUser}>
-            <input type="text" ref={currentUser} placeholder="Enter your Friend's name" onChange={handleOnChange}/>
+            <input type="text" ref={currentUser} placeholder="Enter your Friend's name"/>
           </form>
         </div>
         <div className="userList__list">
         {
-          users?.map(user => <UserListItem key={user.id} user={user} /> )
+          searchedUsers.length ?
+            searchedUsers?.map(user => <UserListItem key={user.id} user={user} /> ) :
+            users?.map(user => <UserListItem key={user.id} user={user} /> )
         }
       </div>
       </UserContext.Provider>
